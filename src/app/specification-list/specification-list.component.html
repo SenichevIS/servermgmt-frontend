@@ -1,0 +1,29 @@
+<h2>Specifications</h2>
+
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<p *ngIf="equipmentId">
+    <a routerLink="/specifications/add/{{equipmentId}}">Add New Specification</a>
+</p>
+
+<table *ngIf="specifications.length > 0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let specification of specifications">
+            <td>{{ specification.specName }}</td>
+            <td>{{ specification.specValue }}</td>
+            <td>
+                <a routerLink="/specifications/edit/{{ specification.id }}">Edit</a>
+                <button (click)="deleteSpecification(specification.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="specifications.length === 0 && !errorMessage">No specifications found for this equipment.</p>

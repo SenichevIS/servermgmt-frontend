@@ -1,0 +1,34 @@
+<h2>Equipment List</h2>
+
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<p *ngIf="serverId">
+    <a routerLink="/equipment/add/{{serverId}}">Add New Equipment</a>
+</p>
+
+<table *ngIf="equipmentList.length > 0">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Serial Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let equipment of equipmentList">
+            <td>{{ equipment.type }}</td>
+            <td>{{ equipment.model }}</td>
+            <td>{{ equipment.serialNumber }}</td>
+            <td>
+                <a routerLink="/equipment/edit/{{ equipment.id }}">Edit</a>
+                 <a routerLink="/equipment/{{equipment.id}}/specifications">Specifications</a>
+                <button (click)="deleteEquipment(equipment.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="equipmentList.length === 0 && !errorMessage">No equipment found for this server.</p>
+
+<a routerLink="/servers">Back to Server List</a>

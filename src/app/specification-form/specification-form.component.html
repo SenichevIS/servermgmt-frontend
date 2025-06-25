@@ -1,0 +1,23 @@
+<h2>{{ specificationId ? 'Edit Specification' : 'Add Specification' }}</h2>
+
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<form [formGroup]="specificationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="specName">Name:</label>
+    <input type="text" id="specName" formControlName="specName">
+    <div *ngIf="specificationForm.get('specName')?.invalid && specificationForm.get('specName')?.touched" class="error">
+      Name is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="specValue">Value:</label>
+    <input type="text" id="specValue" formControlName="specValue">
+    <div *ngIf="specificationForm.get('specValue')?.invalid && specificationForm.get('specValue')?.touched" class="error">
+      Value is required.
+    </div>
+  </div>
+  <button type="submit" [disabled]="specificationForm.invalid">Save</button>
+  <a routerLink="/servers">Cancel</a>
+</form>

@@ -1,0 +1,14 @@
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<div *ngIf="server">
+  <h2>Server Details</h2>
+  <p><strong>Name:</strong> {{ server.name }}</p>
+  <p><strong>Location:</strong> {{ server.location }}</p>
+
+  <h3>Equipment</h3>
+  <app-equipment-list [serverId]="server.id"></app-equipment-list>
+
+  <a routerLink="/servers">Back to Server List</a>
+</div>
+
+<p *ngIf="!server && !errorMessage">Loading server details...</p>

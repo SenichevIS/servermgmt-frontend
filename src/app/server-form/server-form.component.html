@@ -1,0 +1,24 @@
+<h2>{{ serverId ? 'Edit Server' : 'Add Server' }}</h2>
+
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+<form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name">
+    <div *ngIf="serverForm.get('name')?.invalid && serverForm.get('name')?.touched" class="error">
+      Name is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="location">Location:</label>
+    <input type="text" id="location" formControlName="location">
+    <div *ngIf="serverForm.get('location')?.invalid && serverForm.get('location')?.touched" class="error">
+      Location is required.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="serverForm.invalid">Save</button>
+  <a routerLink="/servers">Cancel</a>
+</form>

@@ -1,0 +1,21 @@
+<div class="server-list-container">
+  <h2>Server List</h2>
+  
+  <div class="search-box">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search servers...">
+    <button (click)="searchServers()">Search</button>
+  </div>
+
+  <button routerLink="/servers/add" class="add-button">Add New Server</button>
+
+  <div class="server-grid">
+    <div *ngFor="let server of filteredServers" class="server-card">
+      <h3><a [routerLink]="['/servers', server.id]">{{ server.name }}</a></h3>
+      <p>{{ server.location }}</p>
+      <div class="server-actions">
+        <button [routerLink]="['/servers/edit', server.id]">Edit</button>
+        <button (click)="deleteServer(server.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
