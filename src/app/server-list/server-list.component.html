@@ -1,21 +1,41 @@
-<div class="server-list-container">
+<div class="page-container">
+  <h1>Server Management</h1>
   <h2>Server List</h2>
-  
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div class="actions">
+    <a routerLink="/servers/add" class="add-button">Add New Server</a>
+  </div>
+
   <div class="search-box">
     <input type="text" [(ngModel)]="searchQuery" placeholder="Search servers...">
-    <button (click)="searchServers()">Search</button>
+    <button (click)="searchServers()" class="add-button">Search</button>
   </div>
 
-  <button routerLink="/servers/add" class="add-button">Add New Server</button>
-
-  <div class="server-grid">
-    <div *ngFor="let server of filteredServers" class="server-card">
-      <h3><a [routerLink]="['/servers', server.id]">{{ server.name }}</a></h3>
-      <p>{{ server.location }}</p>
-      <div class="server-actions">
-        <button [routerLink]="['/servers/edit', server.id]">Edit</button>
-        <button (click)="deleteServer(server.id)">Delete</button>
-      </div>
-    </div>
+  <div *ngIf="filteredServers.length > 0; else noServers">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let server of filteredServers">
+          <td><a [routerLink]="['/servers', server.id]">{{ server.name }}</a></td>
+          <td>{{ server.location }}</td>
+          <td>
+            <a [routerLink]="['/servers/edit', server.id]" class="edit-button">Edit</a>
+            <button (click)="deleteServer(server.id)" class="delete-button">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <ng-template #noServers>
+    <p class="no-items-message">No servers found.</p>
+  </ng-template>
 </div>

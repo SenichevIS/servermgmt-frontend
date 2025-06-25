@@ -3,34 +3,234 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
   }
-  
-  .server-list-container {
+
+  .page-container,
+  .management-container,
+  .details-container,
+  .form-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: calc(100vh - 120px);
   }
   
-  .search-box {
-    margin: 20px 0;
+  .details-container,
+  .form-container {
+    max-width: 800px;
+  }
+  
+  .server-info {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .equipment-container {
+    margin-top: 30px;
+  }
+
+  h1, h2, h3 {
+    color: #2c3e50;
+    margin-top: 0;
+  }
+  
+  h1 {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    th {
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+    }
+  
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  }
+
+  .navigation {
+    background-color: #2c3e50;
+    padding: 15px;
+    margin-bottom: 20px;
+  
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 15px;
+    }
+  
+    li {
+      display: inline;
+    }
+  
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 4px;
+  
+      &:hover {
+        background-color: #3498db;
+      }
+    }
+  }
+
+  .btn,
+  .action-button,
+  .add-button,
+  .back-button,
+  .back-link {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    border: none;
+  }
+  
+  .btn-primary,
+  .action-button.primary,
+  .add-button {
+    background-color: #3498db;
+    color: white;
+  
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+  
+  .btn-secondary,
+  .back-button,
+  .back-link {
+    background-color: #6c757d;
+    color: white;
+  
+    &:hover {
+      background-color: #5a6268;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  
+    &:focus {
+      border-color: #3498db;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .error,
+  .error-message,
+  .error-alert {
+    color: #e74c3c;
+    padding: 10px 15px;
+    background-color: #fadbd8;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .no-items-message,
+  .empty-message {
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .actions,
+  .action-bar,
+  .action-buttons {
+    margin-bottom: 20px;
     display: flex;
     gap: 10px;
   }
   
-  .server-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  
-  .server-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    transition: transform 0.3s ease;
+  .text-button {
+    background: none;
+    border: none;
+    color: #2196f3;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
   
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-decoration: underline;
     }
+  }
+  
+  .action-link,
+  .inline-link {
+    color: #1976d2;
+    text-decoration: underline;
+    margin-left: 10px;
+    cursor: pointer;
+  
+    &:hover {
+      color: #002752;
+    }
+  }
+  
+  .detail-row {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+  
+  .icon {
+    font-size: 14px;
   }

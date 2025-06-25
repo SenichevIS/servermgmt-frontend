@@ -1,23 +1,28 @@
-<h2>{{ specificationId ? 'Edit Specification' : 'Add Specification' }}</h2>
+<div class="form-container">
+  <h2 class="form-title">{{ specificationId ? 'Edit Specification' : 'Add Specification' }}</h2>
 
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-<form [formGroup]="specificationForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="specName">Name:</label>
-    <input type="text" id="specName" formControlName="specName">
-    <div *ngIf="specificationForm.get('specName')?.invalid && specificationForm.get('specName')?.touched" class="error">
-      Name is required.
+  <form [formGroup]="specificationForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="specName" class="form-label">Name</label>
+      <input type="text" id="specName" formControlName="specName" class="form-control">
+      <div *ngIf="specificationForm.get('specName')?.invalid && specificationForm.get('specName')?.touched" class="error-message">
+        Name is required
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="specValue">Value:</label>
-    <input type="text" id="specValue" formControlName="specValue">
-    <div *ngIf="specificationForm.get('specValue')?.invalid && specificationForm.get('specValue')?.touched" class="error">
-      Value is required.
+    <div class="form-group">
+      <label for="specValue" class="form-label">Value</label>
+      <input type="text" id="specValue" formControlName="specValue" class="form-control">
+      <div *ngIf="specificationForm.get('specValue')?.invalid && specificationForm.get('specValue')?.touched" class="error-message">
+        Value is required
+      </div>
     </div>
-  </div>
-  <button type="submit" [disabled]="specificationForm.invalid">Save</button>
-  <a routerLink="/servers">Cancel</a>
-</form>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="specificationForm.invalid">Save</button>
+      <a routerLink="/servers" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

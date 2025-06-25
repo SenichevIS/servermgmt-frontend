@@ -1,34 +1,28 @@
-<h2>Equipment List</h2>
+<div class="equipment-container">
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+    <a routerLink="/servers" class="action-link">Select Server</a>
+  </div>
 
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="serverId" class="action-buttons">
+    <a [routerLink]="['/equipment/add', serverId]" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add Equipment
+    </a>
+  </div>
 
-<p *ngIf="serverId">
-    <a routerLink="/equipment/add/{{serverId}}">Add New Equipment</a>
-</p>
+  <div *ngIf="(equipmentList$ | async)!.length > 0; else noEquipment">
+    <table class="equipment-table">
+      <!-- Таблица оборудования -->
+    </table>
+  </div>
 
-<table *ngIf="equipmentList.length > 0">
-    <thead>
-        <tr>
-            <th>Type</th>
-            <th>Model</th>
-            <th>Serial Number</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let equipment of equipmentList">
-            <td>{{ equipment.type }}</td>
-            <td>{{ equipment.model }}</td>
-            <td>{{ equipment.serialNumber }}</td>
-            <td>
-                <a routerLink="/equipment/edit/{{ equipment.id }}">Edit</a>
-                 <a routerLink="/equipment/{{equipment.id}}/specifications">Specifications</a>
-                <button (click)="deleteEquipment(equipment.id)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+  <ng-template #noEquipment>
+    <div *ngIf="serverId" class="empty-message">
+      No equipment found for this server.
+    </div>
+  </ng-template>
 
-<p *ngIf="equipmentList.length === 0 && !errorMessage">No equipment found for this server.</p>
-
-<a routerLink="/servers">Back to Server List</a>
+  <a *ngIf="!standalone" routerLink="/servers" class="back-button">
+    ← Back to Servers
+  </a>
+</div>

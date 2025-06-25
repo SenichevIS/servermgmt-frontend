@@ -2,7 +2,14 @@
 /* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
-  "compilerOptions": {
+   "compilerOptions": {
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+         "src/*"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

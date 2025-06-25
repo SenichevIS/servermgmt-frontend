@@ -1,24 +1,28 @@
-<h2>{{ serverId ? 'Edit Server' : 'Add Server' }}</h2>
+<div class="form-container">
+  <h2 class="form-title">{{ serverId ? 'Edit Server' : 'Add Server' }}</h2>
 
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-<form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="name">Name:</label>
-    <input type="text" id="name" formControlName="name">
-    <div *ngIf="serverForm.get('name')?.invalid && serverForm.get('name')?.touched" class="error">
-      Name is required.
+  <form [formGroup]="serverForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name" class="form-label">Server Name</label>
+      <input type="text" id="name" formControlName="name" class="form-control">
+      <div *ngIf="serverForm.get('name')?.invalid && serverForm.get('name')?.touched" class="error-message">
+        Server name is required
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="location">Location:</label>
-    <input type="text" id="location" formControlName="location">
-    <div *ngIf="serverForm.get('location')?.invalid && serverForm.get('location')?.touched" class="error">
-      Location is required.
+    <div class="form-group">
+      <label for="location" class="form-label">Location</label>
+      <input type="text" id="location" formControlName="location" class="form-control">
+      <div *ngIf="serverForm.get('location')?.invalid && serverForm.get('location')?.touched" class="error-message">
+        Location is required
+      </div>
     </div>
-  </div>
 
-  <button type="submit" [disabled]="serverForm.invalid">Save</button>
-  <a routerLink="/servers">Cancel</a>
-</form>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="serverForm.invalid">Save</button>
+      <a routerLink="/servers" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

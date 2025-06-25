@@ -21,36 +21,49 @@ export class ServerListComponent implements OnInit {
 
   constructor(
     private serverService: ServerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    console.log('Initializing ServerListComponent');
     this.loadServers();
   }
 
   loadServers(): void {
+    console.log('Loading servers...');
     this.serverService.getServers().subscribe({
-      next: (servers) => {
-        this.servers = servers;
-        this.filteredServers = [...servers];
-        this.errorMessage = '';
+      next: (response: any) => {
+        console.log('API response:', response);
+  
+        if (response && response.data && Array.isArray(response.data)) {
+          this.servers = response.data;
+          this.filteredServers = [...response.data];
+          this.errorMessage = '';
+        } else {
+          this.errorMessage = 'Invalid server response format';
+          console.error('Invalid server response:', response);
+        }
       },
       error: (error) => {
-        this.errorMessage = 'Error fetching servers: ' + error;
-        console.error(error);
+        this.errorMessage = 'Error fetching servers: ' + error.message;
+        console.error('Error loading servers:', error);
       }
     });
   }
 
+
   searchServers(): void {
     if (this.searchQuery.trim()) {
       this.serverService.searchServers(this.searchQuery).subscribe({
-        next: (servers) => {
-          this.filteredServers = servers;
+        next: (response: any) => {
+          if (Array.isArray(response)) {
+            this.filteredServers = response;
+          } else if (response && Array.isArray(response.data)) {
+            this.filteredServers = response.data;
+          }
           this.errorMessage = '';
         },
         error: (error) => {
-          this.errorMessage = 'Error searching servers: ' + error;
-          console.error(error);
+          this.errorMessage = 'Error searching servers: ' + error.message;
         }
       });
     } else {
@@ -75,7 +88,7 @@ export class ServerListComponent implements OnInit {
           this.loadServers();
         },
         error: (error) => {
-          this.errorMessage = 'Error deleting server: ' + error;
+          this.errorMessage = 'Error deleting server: ' + error.message;
         }
       });
     }
