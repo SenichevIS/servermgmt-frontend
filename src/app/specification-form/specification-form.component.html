@@ -1,13 +1,25 @@
 <div class="form-container">
-  <h2 class="form-title">{{ specificationId ? 'Edit Specification' : 'Add Specification' }}</h2>
+  <h2 class="form-title">
+    {{ specificationId ? 'Edit Specification' : 'Add Specification' }}
+  </h2>
 
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="false" class="debug-info" style="color: red; margin-bottom: 15px;">
+    Debug: 
+    Mode = {{ specificationId ? 'EDIT' : 'ADD' }},
+    SpecID = {{ specificationId }},
+    EquipmentID = {{ equipmentId }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 
   <form [formGroup]="specificationForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="specName" class="form-label">Name</label>
       <input type="text" id="specName" formControlName="specName" class="form-control">
-      <div *ngIf="specificationForm.get('specName')?.invalid && specificationForm.get('specName')?.touched" class="error-message">
+      <div *ngIf="specificationForm.get('specName')?.invalid && specificationForm.get('specName')?.touched" 
+           class="error-message">
         Name is required
       </div>
     </div>
@@ -15,14 +27,22 @@
     <div class="form-group">
       <label for="specValue" class="form-label">Value</label>
       <input type="text" id="specValue" formControlName="specValue" class="form-control">
-      <div *ngIf="specificationForm.get('specValue')?.invalid && specificationForm.get('specValue')?.touched" class="error-message">
+      <div *ngIf="specificationForm.get('specValue')?.invalid && specificationForm.get('specValue')?.touched" 
+           class="error-message">
         Value is required
       </div>
     </div>
 
+    <input type="hidden" formControlName="equipmentId">
+
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="specificationForm.invalid">Save</button>
-      <a routerLink="/servers" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || specificationForm.invalid">
+        {{ isSubmitting ? 'Processing...' : (specificationId ? 'Update' : 'Save') }}
+      </button>
+      <a  [routerLink]="['/equipment', specificationForm.get('equipmentId')?.value]" 
+         class="btn btn-secondary">
+        Cancel
+      </a>
     </div>
   </form>
 </div>

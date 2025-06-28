@@ -1,45 +1,37 @@
 <div class="form-container">
   <h2 class="form-title">{{ equipmentId ? 'Edit Equipment' : 'Add Equipment' }}</h2>
 
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
 
   <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="type" class="form-label">Type</label>
       <input type="text" id="type" formControlName="type" class="form-control">
-      <div *ngIf="equipmentForm.get('type')?.invalid && equipmentForm.get('type')?.touched" class="error-message">
-        Type is required
-      </div>
+      @if (equipmentForm.get('type')?.invalid && equipmentForm.get('type')?.touched) {
+        <div class="error-message">Type is required</div>
+      }
     </div>
 
     <div class="form-group">
       <label for="model" class="form-label">Model</label>
       <input type="text" id="model" formControlName="model" class="form-control">
-      <div *ngIf="equipmentForm.get('model')?.invalid && equipmentForm.get('model')?.touched" class="error-message">
-        Model is required
-      </div>
+      @if (equipmentForm.get('model')?.invalid && equipmentForm.get('model')?.touched) {
+        <div class="error-message">Model is required</div>
+      }
     </div>
 
     <div class="form-group">
       <label for="serialNumber" class="form-label">Serial Number</label>
       <input type="text" id="serialNumber" formControlName="serialNumber" class="form-control">
-      <div *ngIf="equipmentForm.get('serialNumber')?.invalid && equipmentForm.get('serialNumber')?.touched" class="error-message">
-        Serial number is required
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="serverId" class="form-label">Server</label>
-      <select id="serverId" formControlName="serverId" class="form-control">
-        <option *ngFor="let server of servers" [value]="server.id">{{ server.name }}</option>
-      </select>
-      <div *ngIf="equipmentForm.get('serverId')?.invalid && equipmentForm.get('serverId')?.touched" class="error-message">
-        Server is required
-      </div>
+      @if (equipmentForm.get('serialNumber')?.invalid && equipmentForm.get('serialNumber')?.touched) {
+        <div class="error-message">Serial number is required</div>
+      }
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="equipmentForm.invalid">Save</button>
+      <button class="btn btn-primary" [disabled]="equipmentForm.invalid">Save</button>
       <a [routerLink]="['/servers', equipmentForm.get('serverId')?.value, 'equipment']" class="btn btn-secondary">Cancel</a>
     </div>
   </form>

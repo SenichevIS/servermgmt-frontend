@@ -1,10 +1,9 @@
-<div class="page-container">
-  <h1>Specifications Management</h1>
-  <h2>Specifications List</h2>
+<div class="specification-container">
+  <h2>Specifications</h2>
 
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
-    <a routerLink="/equipment" class="inline-link">Select Equipment</a>
+    <a *ngIf="!equipmentId" routerLink="/equipment" class="action-link">Select Equipment</a>
   </div>
 
   <div *ngIf="equipmentId" class="action-buttons">
@@ -13,22 +12,53 @@
     </a>
   </div>
 
-  <div *ngIf="specifications.length > 0; else noSpecs">
-    <table>
-      <!-- Таблица спецификаций -->
-    </table>
+  <div class="search-box">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search specification...">
+    <button (click)="searchSpecification()" class="add-button">Search</button>
   </div>
 
-  <ng-template #noSpecs>
-    <div *ngIf="equipmentId && !errorMessage" class="no-items-message">
-      No specifications found for this equipment.
-      <a [routerLink]="['/specifications/add', equipmentId]" class="inline-link">
-        Add first specification
-      </a>
+  <ng-container *ngIf="equipmentId; else noEquipmentSelected">
+    <ng-container *ngIf="specificationList$ | async as specifications">
+      <div *ngIf="filteredSpecification.length > 0; else noSpecifications">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let spec of filteredSpecification">
+              <td>{{ spec.specName }}</td>
+              <td>{{ spec.specValue }}</td>
+              <td>
+                <a  [routerLink]="['/specifications/edit', spec.id]" class="action-link">Edit</a>
+                <button (click)="deleteSpecification(spec.id)" class="delete-button">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #noSpecifications>
+        <div class="empty-message">
+          No specifications found for this equipment.
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noEquipmentSelected>
+    <div class="empty-message">
+      Please select equipment to view specifications.
+      <a [routerLink]="['/equipment']" class="action-link">Select Equipment</a>
     </div>
   </ng-template>
 
-  <button (click)="navigateToEquipment()" class="btn btn-secondary">
-    <i class="fas fa-arrow-left"></i> Back to Equipment
-  </button>
+  <a *ngIf="!standalone && equipmentId" 
+   [routerLink]="['/servers']" 
+   class="back-link">
+   <i class="fas fa-arrow-left"></i> Back to Server
+</a>
 </div>

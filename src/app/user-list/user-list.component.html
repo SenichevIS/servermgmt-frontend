@@ -7,7 +7,13 @@
     <a routerLink="/users/add" class="add-button">Add New User</a>
   </div>
 
-  <div *ngIf="users.length > 0; else noUsers">
+  <div class="search-box">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search users...">
+    <button (click)="searchUsers()" class="add-button">Search</button>
+  </div>
+
+
+  <div *ngIf="filteredUsers.length > 0; else noUsers">
     <table>
       <thead>
         <tr>
@@ -18,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of filteredUsers">
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>

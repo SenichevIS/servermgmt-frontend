@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Server } from '../models/server.model';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,25 @@ export class ServerService {
 
   constructor(private http: HttpClient) { }
 
+  getServer(id: number): Observable<Server> {
+    console.log(`Fetching server with id ${id} from API`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map((response) => {
+        if (response?.data) {
+          return response.data as Server;
+        }
+        throw new Error('Invalid server data format');
+      }),
+      catchError((error: any) => {
+        console.error('Error fetching server:', error);
+        throw error;
+      })
+    );
+  }
+
   getServers(): Observable<Server[]> {
     console.log('Fetching all servers from API');
     return this.http.get<Server[]>(this.apiUrl);
-  }
-
-  getServer(id: number): Observable<Server> {
-    console.log(`Fetching server with id ${id} from API`);
-    return this.http.get<Server>(`${this.apiUrl}/${id}`);
   }
 
   createServer(server: Server): Observable<Server> {

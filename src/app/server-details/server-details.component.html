@@ -6,20 +6,24 @@
   </div>
 
   <div *ngIf="server; else loading">
-    <div class="server-info"> <!-- Обертка для информации о сервере -->
+    <div class="server-info">
       <div class="detail-row">
         <strong>Name:</strong> {{ server.name }}
       </div>
       <div class="detail-row">
         <strong>Location:</strong> {{ server.location }}
       </div>
-    </div> <!-- Закрываем server-info -->
+    </div>
 
     <h2>Equipment</h2>
-    <app-equipment-list [serverId]="server?.id"></app-equipment-list>
+    <p>Debug: Server ID = {{ server.id }}</p>
+    <app-equipment-list [serverId]="server.id"></app-equipment-list>
   </div>
 
   <ng-template #loading>
-    <div class="loading-message">Loading server details...</div>
+    <div class="loading-message">
+      Loading server details...
+      <div *ngIf="!errorMessage">Please wait...</div>
+    </div>
   </ng-template>
 </div>

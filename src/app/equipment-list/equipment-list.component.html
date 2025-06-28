@@ -1,4 +1,5 @@
 <div class="equipment-container">
+
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
     <a routerLink="/servers" class="action-link">Select Server</a>
@@ -10,9 +11,33 @@
     </a>
   </div>
 
-  <div *ngIf="(equipmentList$ | async)!.length > 0; else noEquipment">
-    <table class="equipment-table">
-      <!-- Таблица оборудования -->
+  <div class="search-box">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search servers...">
+    <button (click)="searchEquipments()" class="add-button">Search</button>
+  </div>
+
+  <div *ngIf="filteredEquipment.length > 0; else noEquipment">
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Model</th>
+          <th>Serial Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipment of filteredEquipment">
+          <td><a (click)="navigateToList(equipment.id)" [routerLink]="['/equipment', equipment.id]">{{ equipment.type }}</a></td>
+          <td>{{ equipment.model }}</td>
+          <td>{{ equipment.serialNumber }}</td>
+          <td>
+            <a [routerLink]="['/equipment/edit', equipment.id]" class="action-link">Edit</a>
+            <!--<a (click)="navigateToList(equipment.id)" [routerLink]="['/equipment', equipment.id]" class="action-link">Specs</a>-->
+            <button (click)="deleteEquipment(equipment.id)" class="delete-button">Delete</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 

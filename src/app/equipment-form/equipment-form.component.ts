@@ -31,7 +31,7 @@ export class EquipmentFormComponent implements OnInit {
       type: ['', Validators.required],
       model: ['', Validators.required],
       serialNumber: ['', Validators.required],
-      serverId: [null, Validators.required] 
+      serverId: [null, Validators.required]
     });
   }
 
@@ -54,8 +54,17 @@ export class EquipmentFormComponent implements OnInit {
 
   loadServers(): void {
     this.serverService.getServers().subscribe({
-      next: (servers) => {
-        this.servers = servers;
+      next: (response: any) => { 
+        console.log('API response for servers:', response);
+        if (Array.isArray(response)) {
+          this.servers = response;
+        } else if (response && Array.isArray(response.data)) {
+          this.servers = response.data;
+        }
+        else {
+            this.errorMessage = "Invalid server response format";
+            console.log("Error")
+        }
       },
       error: (error) => {
         this.errorMessage = 'Error fetching servers: ' + error;
@@ -84,11 +93,12 @@ export class EquipmentFormComponent implements OnInit {
   onSubmit(): void {
     if (this.equipmentForm.valid) {
       const equipmentData = this.equipmentForm.value;
-
+      const serverid = equipmentData.serverId;
+  
       if (this.equipmentId) {
         this.equipmentService.updateEquipment(this.equipmentId, equipmentData).subscribe({
           next: () => {
-            this.router.navigate(['/servers', equipmentData.serverId, 'equipment']);
+            this.router.navigate(['/servers', serverid]);
           },
           error: (error) => {
             this.errorMessage = 'Error updating equipment: ' + error;
@@ -98,7 +108,7 @@ export class EquipmentFormComponent implements OnInit {
       } else {
         this.equipmentService.createEquipment(equipmentData).subscribe({
           next: () => {
-            this.router.navigate(['/servers', equipmentData.serverId, 'equipment']);
+            this.router.navigate(['/servers', serverid]);
           },
           error: (error) => {
             this.errorMessage = 'Error creating equipment: ' + error;
